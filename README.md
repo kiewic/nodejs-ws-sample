@@ -1,6 +1,6 @@
 # Node.js WebSockets example.
 
-# Running the server.
+## Running the server.
 
     npm install --save ws
 
@@ -8,7 +8,7 @@
 
 More info [here][websockets_ws].
 
-# Running the client.
+## Running the client.
 
 Open *client.html* in a web browser.
 
