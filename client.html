@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>WebSocket Client</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        // Submit button.
+        $('#payload-form').submit(function() {
+            var payload = ($("input#payload").val());
+
+             // Send a message.
+            socket.send(payload);
+            return false;
+        });
+
+        // Open WebSocket
+        var socket = new WebSocket('ws://localhost:8080');
+
+        // Close WebSocket
+        $('#close-button').click(function() {
+            socket.close(1001);
+        });
+        
+        socket.onopen = function() {
+            console.log("onopen!");
+            // WebSocket is connected. Send an initial random message.
+            socket.send(Math.floor(Math.random()*10) + ' >> Hi, I am Mr. so-and-so!');
+        };
+        
+        // Append to '#log' whatever the server pushes.
+        socket.onmessage = function(ev){
+            console.log("onmessage!");
+            //msg = JSON.parse(ev.data);
+            //$('#log').append(JSON.stringify(msg) + '</br>');
+            $('#log').append(ev.data + '</br>');
+        }
+    })
+    </script>
+</head>
+<body>
+    <div id='payload-container'>
+        <form id='payload-form'>
+            <input type='text' name='payload' id='payload' value='Hello World' style="width:500px;"/>
+            <input type='submit' value='push'/>
+            <input type='button' id='close-button' value='close'/>
+        </form>
+    </div>
+
+    <div id='log' style='display:block; border:1px solid lightgray;'></div>
+</body>
+</html>
